@@ -1,7 +1,13 @@
-# run.py
-from app import create_app
+# app/__init__.py
+from flask import Flask
+from app.config import Config
 
-app = create_app()
 
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5001, debug=False)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+
+    from app.controllers.main import main_bp
+    app.register_blueprint(main_bp)
+
+    return app
